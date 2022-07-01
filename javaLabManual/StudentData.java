@@ -39,7 +39,7 @@ public class StudentData {
 	}
 	
 	void displayDetails() {
-//		computeMarks();
+		computeMarks();
 		System.out.print("\nStudent Name : ");
 		for (char letters : name) {
 			System.out.print(letters);
