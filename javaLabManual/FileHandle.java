@@ -31,6 +31,7 @@ public class FileHandle{
                 }
                 Reader.close();
             }
+            System.out.println("New File Created and Merged File 1 and File 2");
         }
         catch (FileNotFoundException e) {
             System.out.println("An error has occurred.");
