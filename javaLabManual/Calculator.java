@@ -6,17 +6,23 @@ import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
+import java.awt.event.*;  
 
 
-public class Calculator{
+public class Calculator implements ActionListener{
+
+    float firstValue,secondValue;
+    boolean isOperatorClicked = false;
+
     JFrame frame = new JFrame("Calculator");
-    JTextField screen = new JTextField("Calculator Screen");
+    JTextField screen = new JTextField();
     Calculator(){
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setBounds(400,200,300, 340);            
         frame.setVisible(true);
     }
     public void addComponents(){
+        screen.setHorizontalAlignment(JTextField.RIGHT);
         screen.setBounds(12,20, 260,50);  
         screen.setEditable(false);
         screen.setBackground(Color.GRAY);
@@ -49,6 +55,8 @@ public class Calculator{
         JButton dot = new JButton(".");
 
         equals.setBounds(212,90,60,190);
+
+
 
         plus.setBounds(12,90, 40,40);
         min.setBounds(62,90, 40,40);
@@ -96,7 +104,72 @@ public class Calculator{
         frame.add(button3);   
         frame.add(equals);       
 
+        dot.addActionListener(this);
+        plus.addActionListener(this);
+        min.addActionListener(this);
+        div.addActionListener(this);
+        mult.addActionListener(this);
+        equals.addActionListener(this);
+        clear.addActionListener(this);
+
+        button0.addActionListener(this);
+        button1.addActionListener(this);
+        button2.addActionListener(this);
+        button3.addActionListener(this);
+        button4.addActionListener(this);
+        button5.addActionListener(this);
+        button6.addActionListener(this);
+        button7.addActionListener(this);
+        button8.addActionListener(this);
+        button9.addActionListener(this);
     }
+    public void actionPerformed(ActionEvent e){  
+        String text = e.getActionCommand();
+      if (text.charAt(0) == 'C') {                      
+         screen.setText("");
+      }else if (text.charAt(0) == '=') {    
+        System.out.println(screen.getText());                
+        screen.setText(evaluate(screen.getText()));
+      }else {                                
+         screen.setText(screen.getText() + text);
+      }
+    }  
+
+   public String evaluate(String expression) {
+      char[] arr = expression.toCharArray();
+      String operand1 = "";String operand2 = "";String operator = "";
+      double result = 0;
+
+      for (int i = 0; i < arr.length; i++) {
+         if (arr[i] >= '0' && arr[i] <= '9' || arr[i] == '.') {
+            if(operator.isEmpty()){
+               operand1 += arr[i];
+            }else{
+               operand2 += arr[i];
+            }
+         }  
+
+         if(arr[i] == '+' || arr[i] == '-' || arr[i] == '/' || arr[i] == '*') {
+            operator += arr[i];
+         }
+      }
+
+      if (operator.equals("+")){
+         result = (Double.parseDouble(operand1) + Double.parseDouble(operand2));
+      }   
+      else if (operator.equals("-")){
+         result = (Double.parseDouble(operand1) - Double.parseDouble(operand2));
+      }   
+      else if (operator.equals("/")){
+         result = (Double.parseDouble(operand1) / Double.parseDouble(operand2));
+      }   
+      else{
+         result = (Double.parseDouble(operand1) * Double.parseDouble(operand2));         
+      }    
+      return ""+result;
+   }    
+  
+
     public static void main(String S[]){
         Calculator c = new Calculator();
         c.addComponents();
